@@ -1,0 +1,2 @@
+# AIDCTypeR
+Data Cleaner
