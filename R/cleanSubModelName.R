@@ -3,7 +3,7 @@
 #works one row at a time
 #assumption is that model year and clean make name and clean model name are correct
 #' @export
-"cleanSubModelName" <- function(dirtyRow, vidInput, columnName)
+"cleanSubModelName" <- function(dirtyRow, vidInput, columnName, optionalColumns = NA)
 {
 
   #use clean make and model and model year
@@ -53,9 +53,19 @@
     subModels <- subModels[order(-subModelsNchar)] #most descriptive submodels are first
 
     for(sm in subModels){
-      if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(sm, dirtyRow$Page_Title, ignore.case = TRUE)){
-        returnThis <- sm
-        break
+      #if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(sm, dirtyRow$Page_Title, ignore.case = TRUE)){
+      if(!is.na(optionalColumns)){
+        for(thisColumn in optionalColumns){
+          if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow[, thisColumn], ignore.case = TRUE)){
+            returnThis <- sm
+            break
+          }
+        }
+      } else {
+        if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE)){
+          returnThis <- sm
+          break
+        }
       }
     }
   }
@@ -71,9 +81,19 @@
     subModels <- subModels[order(-subModelsNchar)] #most descriptive are first
 
     for(sm in subModels){
-      if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(sm, dirtyRow$Page_Title, ignore.case = TRUE)){
-        returnThis <- sm
-        break
+      #if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(sm, dirtyRow$Page_Title, ignore.case = TRUE)){
+      if(!is.na(optionalColumns)){
+        for(thisColumn in optionalColumns){
+          if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow[, thisColumn], ignore.case = TRUE)){
+            returnThis <- sm
+            break
+          }
+        }
+      } else {
+        if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE)){
+          returnThis <- sm
+          break
+        }
       }
     }
   }
