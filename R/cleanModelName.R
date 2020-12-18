@@ -3,7 +3,7 @@
 #works one row at a time
 #assumption is that model year and clean make name is correct
 #' @export
-"cleanModelName" <- function(dirtyRow, vidInput, columnName)
+"cleanModelName" <- function(dirtyRow, vidInput, columnName, optionalColumns = NA)
 {
 
   thisYear <- dirtyRow$YearName[1]
@@ -50,39 +50,66 @@
         mStripped <- removeNonLettersNumbers(m) #also strip any non letters or numbers from the VID model name
         if(stringdist(mStripped, mnStripped) < (nchar(mnStripped) / 2)){
           #match either those two both ways so that either can be longer or match in description
-          if(grepl(mStripped, mnStripped, ignore.case = TRUE) | grepl(m, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(mnStripped, mStripped, ignore.case = TRUE)){
-            returnThis <- m
-            break
+          #if(grepl(mStripped, mnStripped, ignore.case = TRUE) | grepl(m, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(mnStripped, mStripped, ignore.case = TRUE)){
+          if(!is.na(optionalColumns)){
+            for(thisColumn in optionalColumns){
+              if(grepl(mStripped, mnStripped, ignore.case = TRUE) | grepl(m, dirtyRow[, thisColumn], ignore.case = TRUE) | grepl(mnStripped, mStripped, ignore.case = TRUE)){
+                returnThis <- m
+                break
+              }
+            }
+          } else {
+            if(grepl(mStripped, mnStripped, ignore.case = TRUE) | grepl(mnStripped, mStripped, ignore.case = TRUE)){
+              returnThis <- m
+              break
+            }
           }
         }
       }
     }
-    #if matching didn't work attempt to join provided that the model name in the dirty data is of sufficient length
-    if(is.na(returnThis) & (nchar(mnStripped) > 2) & !is.na(dirtyRow$ModelName)){
+  }
+  #if matching didn't work attempt to join provided that the model name in the dirty data is of sufficient length
+  if(is.na(returnThis) & (nchar(mnStripped) > 2) & !is.na(dirtyRow$ModelName)){
 
+    combinedData <- {}
+    combinedData <- stringdist_inner_join(dirtyRow[, paste0(c("TxnID", "LotNumber", columnName))]
+                                          , vidInput[vidInput$YearName == thisYear
+                                                     & !is.na(vidInput$YearName)
+                                                     & grepl(firstOne, vidInput$ModelName, ignore.case = TRUE)
+                                                     & vidInput$MakeName == thisMake, ]
+                                          , by = columnName
+                                          , max_dist = nYMM
+                                          , distance_col = "DistanceColumn"
+                                          , ignore_case = TRUE)
+    #combinedData <- combinedData[combinedData$DistanceColumn < minN, ]
+
+    #returnThis <- NA
+    if(nrow(combinedData) > 0){
+      #sort so that most accurate are first
+      combinedData <- combinedData[order(combinedData$DistanceColumn), ]
+      returnThis <- combinedData$ModelName[1]
+    } else {
+      #if no matches exist yet attempt join on make name or page title match
       combinedData <- {}
-      combinedData <- stringdist_inner_join(dirtyRow[, paste0(c("TxnID", "LotNumber", columnName))]
-                                            , vidInput[vidInput$YearName == thisYear
-                                                       & !is.na(vidInput$YearName)
-                                                       & grepl(firstOne, vidInput$ModelName, ignore.case = TRUE)
-                                                       & vidInput$MakeName == thisMake, ]
-                                            , by = columnName
-                                            , max_dist = nYMM
-                                            , distance_col = "DistanceColumn"
-                                            , ignore_case = TRUE)
-      #combinedData <- combinedData[combinedData$DistanceColumn < minN, ]
-
-      #returnThis <- NA
-      if(nrow(combinedData) > 0){
-        #sort so that most accurate are first
-        combinedData <- combinedData[order(combinedData$DistanceColumn), ]
-        returnThis <- combinedData$ModelName[1]
-      } else {
-        #if no matches exist yet attempt join on make name or page title match
-        combinedData <- {}
-        if(length(vidInput$ModelName[grepl(paste0(thisYear, " ", dirtyRow$CleanMakeName[1]), vidInput[, columnName], ignore.case = TRUE)]) > 0){
-          for(m in unique(vidInput$ModelName[grepl(paste0(thisYear, " ", dirtyRow$CleanMakeName[1]), vidInput[, columnName], ignore.case = TRUE)])){
-            if(grepl(m, dirtyRow$ModelName, ignore.case = TRUE) | grepl(m, dirtyRow$Page_Title, ignore.case = TRUE)){
+      if(length(vidInput$ModelName[grepl(paste0(thisYear, " ", dirtyRow$CleanMakeName[1]), vidInput[, columnName], ignore.case = TRUE)]) > 0){
+        for(m in unique(vidInput$ModelName[grepl(paste0(thisYear, " ", dirtyRow$CleanMakeName[1]), vidInput[, columnName], ignore.case = TRUE)])){
+          #if(grepl(m, dirtyRow$ModelName, ignore.case = TRUE) | grepl(m, dirtyRow$Page_Title, ignore.case = TRUE)){
+          if(!is.na(optionalColumns)){
+            for(thisColumn in optionalColumns){
+              if(grepl(m, dirtyRow$ModelName, ignore.case = TRUE) | grepl(m, dirtyRow[, thisColumn], ignore.case = TRUE)){
+                combinedData <- rbind(combinedData, stringdist_inner_join(dirtyRow[, paste0(c("TxnID", "LotNumber", "ModelName"))]
+                                                                          , vidInput[vidInput$YearName == thisYear
+                                                                                     & !is.na(vidInput$YearName)
+                                                                                     & vidInput$ModelName == m
+                                                                                     & vidInput$MakeName == thisMake, ]
+                                                                          , by = "ModelName"
+                                                                          , max_dist = nYMM + 20
+                                                                          , distance_col = "DistanceColumn"
+                                                                          , ignore_case = TRUE))
+              }
+            }
+          } else {
+            if(grepl(m, dirtyRow$ModelName, ignore.case = TRUE)){
               combinedData <- rbind(combinedData, stringdist_inner_join(dirtyRow[, paste0(c("TxnID", "LotNumber", "ModelName"))]
                                                                         , vidInput[vidInput$YearName == thisYear
                                                                                    & !is.na(vidInput$YearName)
@@ -94,11 +121,12 @@
                                                                         , ignore_case = TRUE))
             }
           }
-          if(length(combinedData) > 0){
-            #sort so that most accurate are first
-            combinedData <- combinedData[order(combinedData$DistanceColumn), ]
-            returnThis <- combinedData$ModelName.y[1]
-          }
+
+        }
+        if(length(combinedData) > 0){
+          #sort so that most accurate are first
+          combinedData <- combinedData[order(combinedData$DistanceColumn), ]
+          returnThis <- combinedData$ModelName.y[1]
         }
       }
     }
@@ -109,12 +137,24 @@
   if(is.na(returnThis) & length(modelName) > 1)
   {
     for(m in modelName){
-      if(grepl(m, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(m, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(m, dirtyRow$Page_Title, ignore.case = TRUE) | grepl(m, dirtyRow$ListingURL, ignore.case = TRUE)){
-        returnThis <- m
-        break
+      #if(grepl(m, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(m, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(m, dirtyRow$Page_Title, ignore.case = TRUE) | grepl(m, dirtyRow$ListingURL, ignore.case = TRUE)){
+      if(!is.na(optionalColumns)){
+        for(thisColumn in optionalColumns){
+          if(grepl(m, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(m, dirtyRow[, thisColumn], ignore.case = TRUE)){
+            returnThis <- m
+            break
+          }
+        }
+      } else {
+        if(grepl(m, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE)){
+          returnThis <- m
+          break
+        }
       }
     }
   }
+
+
   return(returnThis)
 
 
