@@ -4,7 +4,7 @@
 #assumption is that model year and clean make name and clean model name and clean submodel name are correct
 #and that body type name has not already been determined
 #' @export
-"cleanBodyTypeName" <- function(dirtyRow, vidInput)
+"cleanBodyTypeName" <- function(dirtyRow, vidInput, optionalColumns = NA)
 {
 
   #use clean make and model and submodel and model year
@@ -53,10 +53,21 @@
   if(is.na(returnThis) & length(bodyType) > 1 & !is.na(dirtyRow$BodyTypeName))
   {
     for(b in bodyType){
-      if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE)
-         | grepl(b, dirtyRow$Listing_Description, ignore.case = TRUE)
-         | grepl(b, dirtyRow$ListingURL, ignore.case = TRUE)){
-        returnThis <- b
+      #if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE) | grepl(b, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(b, dirtyRow$ListingURL, ignore.case = TRUE)){
+      #  returnThis <- b
+      #}
+      if(!is.na(optionalColumns)){
+        for(thisColumn in optionalColumns){
+          if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE) | grepl(b, dirtyRow[, thisColumn], ignore.case = TRUE)){
+            returnThis <- b
+            break
+          }
+        }
+      } else {
+        if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE)){
+          returnThis <- b
+          break
+        }
       }
     }
   }
@@ -95,14 +106,23 @@
   if(is.na(returnThis) & !is.na(dirtyRow$BodyTypeName) & length(bodyType) > 1 )
   {
     for(b in bodyType){
-      if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE)
-         | grepl(b, dirtyRow$Listing_Description, ignore.case = TRUE)
-         | grepl(b, dirtyRow$ListingURL, ignore.case = TRUE)){
-        returnThis <- b
+      #if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE) | grepl(b, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(b, dirtyRow$ListingURL, ignore.case = TRUE)){
+      if(!is.na(optionalColumns)){
+        for(thisColumn in optionalColumns){
+          if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE) | grepl(b, dirtyRow[, thisColumn], ignore.case = TRUE)){
+            returnThis <- b
+            break
+          }
+        }
+      } else {
+        if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE)){
+          returnThis <- b
+          break
+        }
       }
     }
   }
 
-  return(returnThis)
+return(returnThis)
 
 }
