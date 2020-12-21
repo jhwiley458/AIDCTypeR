@@ -41,6 +41,10 @@
   vidData <- sqlQuery(dbhandle, queryString)
 
   odbcClose(dbhandle)
+	
+  vidData$ModelName[grepl("[(]Truck[)]", vidData$ModelName, ignore.case = TRUE)] <- gsub("[(]Truck[)]", "", vidData$ModelName[grepl("[(]Truck[)]", vidData$ModelName, ignore.case = TRUE)], ignore.case = TRUE)
+
+  vidData$ModelName <- str_trim(vidData$ModelName, side = c("both"))
 
   vidData <- setVehicleString(vidData, c("YearName", "MakeName", "ModelName"))
   vidData <- setVehicleString(vidData, c("YearName", "MakeName", "ModelName", "SubModelName", "BodyTypeName"))
