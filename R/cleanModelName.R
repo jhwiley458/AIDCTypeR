@@ -32,7 +32,10 @@
                                            & !is.na(vidInput$ModelName)])
   }
 
-
+  #order so that longest model names first
+  modelNameNchar <- sapply(modelName, nchar)
+  modelName <- modelName[order(-modelNameNchar)]
+  
   #remove characters such as dashes or spaces
   mnStripped <- removeNonLettersNumbers(dirtyRow$ModelName)
 
@@ -44,8 +47,6 @@
   } else {
     if(length(modelName) > 1 & !is.na(dirtyRow$ModelName)){
       #order VID model names by decreasing length so that more specific models will be matched first. "328 GTS" matches before "328"
-      modelNameNchar <- sapply(modelName, nchar)
-      modelName <- modelName[order(-modelNameNchar)]
       for(m in modelName){
         mStripped <- removeNonLettersNumbers(m) #also strip any non letters or numbers from the VID model name
         if(stringdist(mStripped, mnStripped) < (nchar(mnStripped) / 2)){
