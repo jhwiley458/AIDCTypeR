@@ -93,10 +93,11 @@
       combinedData <- {}
       if(length(vidInput$ModelName[grepl(paste0(thisYear, " ", dirtyRow$CleanMakeName[1]), vidInput[, columnName], ignore.case = TRUE)]) > 0){
         for(m in unique(vidInput$ModelName[grepl(paste0(thisYear, " ", dirtyRow$CleanMakeName[1]), vidInput[, columnName], ignore.case = TRUE)])){
+          mStripped <- removeNonLettersNumbers(m) #also strip any non letters or numbers from the VID model name
           #if(grepl(m, dirtyRow$ModelName, ignore.case = TRUE) | grepl(m, dirtyRow$Page_Title, ignore.case = TRUE)){
           if(!is.na(optionalColumns)){
             for(thisColumn in optionalColumns){
-              if(grepl(m, dirtyRow$ModelName, ignore.case = TRUE) | grepl(m, dirtyRow[, thisColumn], ignore.case = TRUE)){
+              if(grepl(mStripped, removeNonLettersNumbers(dirtyRow$ModelName), ignore.case = TRUE) | grepl(mStripped, removeNonLettersNumbers(dirtyRow[, thisColumn]), ignore.case = TRUE)){
                 combinedData <- rbind(combinedData, stringdist_inner_join(dirtyRow[, paste0(c("TxnID", "LotNumber", "ModelName"))]
                                                                           , vidInput[vidInput$YearName == thisYear
                                                                                      & !is.na(vidInput$YearName)
@@ -109,7 +110,7 @@
               }
             }
           } else {
-            if(grepl(m, dirtyRow$ModelName, ignore.case = TRUE)){
+            if(grepl(mStripped, dirtyRow$ModelName, ignore.case = TRUE)){
               combinedData <- rbind(combinedData, stringdist_inner_join(dirtyRow[, paste0(c("TxnID", "LotNumber", "ModelName"))]
                                                                         , vidInput[vidInput$YearName == thisYear
                                                                                    & !is.na(vidInput$YearName)
@@ -137,16 +138,17 @@
   if(is.na(returnThis) & length(modelName) > 1)
   {
     for(m in modelName){
+      mStripped <- removeNonLettersNumbers(m) #also strip any non letters or numbers from the VID model name
       #if(grepl(m, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(m, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(m, dirtyRow$Page_Title, ignore.case = TRUE) | grepl(m, dirtyRow$ListingURL, ignore.case = TRUE)){
       if(!is.na(optionalColumns)){
         for(thisColumn in optionalColumns){
-          if(grepl(m, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(m, dirtyRow[, thisColumn], ignore.case = TRUE)){
+          if(grepl(mStripped, removeNonLettersNumbers(dirtyRow$YearMakeModelSubModel), ignore.case = TRUE) | grepl(mStripped, removeNonLettersNumbers(dirtyRow[, thisColumn]), ignore.case = TRUE)){
             returnThis <- m
             break
           }
         }
       } else {
-        if(grepl(m, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE)){
+        if(grepl(mStripped, removeNonLettersNumbers(dirtyRow$YearMakeModelSubModel), ignore.case = TRUE)){
           returnThis <- m
           break
         }
