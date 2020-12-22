@@ -68,6 +68,29 @@
       }
     }
   }
+  
+   #if no match exists attempt to make on listing description or page title or URL or vehicle description string
+  if(is.na(returnThis) & length(modelName) > 1)
+  {
+    for(m in modelName){
+      mStripped <- removeNonLettersNumbers(m) #also strip any non letters or numbers from the VID model name
+      #if(grepl(m, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(m, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(m, dirtyRow$Page_Title, ignore.case = TRUE) | grepl(m, dirtyRow$ListingURL, ignore.case = TRUE)){
+      if(!is.na(optionalColumns)){
+        for(thisColumn in optionalColumns){
+          if(grepl(mStripped, removeNonLettersNumbers(dirtyRow$YearMakeModelSubModel), ignore.case = TRUE) | grepl(mStripped, removeNonLettersNumbers(dirtyRow[, thisColumn]), ignore.case = TRUE)){
+            returnThis <- m
+            break
+          }
+        }
+      } else {
+        if(grepl(mStripped, removeNonLettersNumbers(dirtyRow$YearMakeModelSubModel), ignore.case = TRUE)){
+          returnThis <- m
+          break
+        }
+      }
+    }
+  }
+  
   #if matching didn't work attempt to join provided that the model name in the dirty data is of sufficient length
   if(is.na(returnThis) & (nchar(mnStripped) > 2) & !is.na(dirtyRow$ModelName)){
 
@@ -132,30 +155,6 @@
       }
     }
   }
-
-
-  #if no match exists attempt to make on listing description or page title or URL or vehicle description string
-  if(is.na(returnThis) & length(modelName) > 1)
-  {
-    for(m in modelName){
-      mStripped <- removeNonLettersNumbers(m) #also strip any non letters or numbers from the VID model name
-      #if(grepl(m, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(m, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(m, dirtyRow$Page_Title, ignore.case = TRUE) | grepl(m, dirtyRow$ListingURL, ignore.case = TRUE)){
-      if(!is.na(optionalColumns)){
-        for(thisColumn in optionalColumns){
-          if(grepl(mStripped, removeNonLettersNumbers(dirtyRow$YearMakeModelSubModel), ignore.case = TRUE) | grepl(mStripped, removeNonLettersNumbers(dirtyRow[, thisColumn]), ignore.case = TRUE)){
-            returnThis <- m
-            break
-          }
-        }
-      } else {
-        if(grepl(mStripped, removeNonLettersNumbers(dirtyRow$YearMakeModelSubModel), ignore.case = TRUE)){
-          returnThis <- m
-          break
-        }
-      }
-    }
-  }
-
 
   return(returnThis)
 
