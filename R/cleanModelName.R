@@ -33,8 +33,11 @@
   }
 
   #order so that longest model names first
-  modelNameNchar <- sapply(modelName, nchar)
-  modelName <- modelName[order(-modelNameNchar)]
+  if(length(modelName) > 1)
+  {
+   modelNameNchar <- sapply(modelName, nchar)
+   modelName <- modelName[order(-modelNameNchar)]
+  }
   
   #remove characters such as dashes or spaces
   mnStripped <- removeNonLettersNumbers(dirtyRow$ModelName)
@@ -52,7 +55,7 @@
         if(stringdist(mStripped, mnStripped) < (nchar(mnStripped) / 2)){
           #match either those two both ways so that either can be longer or match in description
           #if(grepl(mStripped, mnStripped, ignore.case = TRUE) | grepl(m, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(mnStripped, mStripped, ignore.case = TRUE)){
-          if(!is.na(optionalColumns)){
+          if(!is.na(optionalColumns[1])){
             for(thisColumn in optionalColumns){
               if(grepl(mStripped, mnStripped, ignore.case = TRUE) | grepl(m, dirtyRow[, thisColumn], ignore.case = TRUE) | grepl(mnStripped, mStripped, ignore.case = TRUE)){
                 returnThis <- m
@@ -76,7 +79,7 @@
     for(m in modelName){
       mStripped <- removeNonLettersNumbers(m) #also strip any non letters or numbers from the VID model name
       #if(grepl(m, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(m, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(m, dirtyRow$Page_Title, ignore.case = TRUE) | grepl(m, dirtyRow$ListingURL, ignore.case = TRUE)){
-      if(!is.na(optionalColumns)){
+      if(!is.na(optionalColumns[1])){
         for(thisColumn in optionalColumns){
           if(grepl(mStripped, removeNonLettersNumbers(dirtyRow$YearMakeModelSubModel), ignore.case = TRUE) | grepl(mStripped, removeNonLettersNumbers(dirtyRow[, thisColumn]), ignore.case = TRUE)){
             returnThis <- m
@@ -119,7 +122,7 @@
         for(m in unique(vidInput$ModelName[grepl(paste0(thisYear, " ", dirtyRow$CleanMakeName[1]), vidInput[, columnName], ignore.case = TRUE)])){
           mStripped <- removeNonLettersNumbers(m) #also strip any non letters or numbers from the VID model name
           #if(grepl(m, dirtyRow$ModelName, ignore.case = TRUE) | grepl(m, dirtyRow$Page_Title, ignore.case = TRUE)){
-          if(!is.na(optionalColumns)){
+          if(!is.na(optionalColumns[1])){
             for(thisColumn in optionalColumns){
               if(grepl(mStripped, removeNonLettersNumbers(dirtyRow$ModelName), ignore.case = TRUE) | grepl(mStripped, removeNonLettersNumbers(dirtyRow[, thisColumn]), ignore.case = TRUE)){
                 combinedData <- rbind(combinedData, stringdist_inner_join(dirtyRow[, paste0(c("TxnID", "LotNumber", "ModelName"))]
