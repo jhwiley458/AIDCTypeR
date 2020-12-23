@@ -25,7 +25,7 @@
                                            & vidInput$MakeName == thisMake
                                            & !is.na(vidInput$ModelName)])
     #if Body type name is available narrow down choices
-    if(!is.na(thisBody)){
+    if(!is.na(thisBody) & !grepl("Motorcycle", thisBody, ignore.case = TRUE)){
       modelName <- unique(vidInput$ModelName[vidInput$YearName == thisYear
                                              & vidInput$MakeName == thisMake
                                              & grepl(thisBody, vidInput$BodyTypeName, ignore.case = TRUE)
