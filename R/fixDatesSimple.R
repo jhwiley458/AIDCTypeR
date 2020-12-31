@@ -1,3 +1,5 @@
+#fix dates for simple formats
+#' @export
 "fixDatesSimple" <- function(dirtyData)
 {
 
