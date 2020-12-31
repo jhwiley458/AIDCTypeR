@@ -78,16 +78,16 @@
   inputData[grepl("GT3", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Porsche", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "911"
 
   #fix Pontiac Trans Am to be submodel of Firebird
-  inputData[grepl("Trans", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Pontiac", inputData[, "MakeName"], "SubModelName"] <-  "Trans Am"
-  inputData[grepl("Trans", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Pontiac", inputData[, "MakeName"], "ModelName"] <-  "Firebird"
-                                                                                 
+  inputData[grepl("Trans", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Pontiac", inputData[, "MakeName"], ignore.case = TRUE), "SubModelName"] <-  "Trans Am"
+  inputData[grepl("Trans", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Pontiac", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <-  "Firebird"
+
   #fix Pontiac GTO pre-1966
-  inputData[grepl("GTO", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Pontiac", inputData[, "MakeName"] & inputData$YearName < 1966, "SubModelName"] <-  "GTO"
-  inputData[grepl("GTO", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Pontiac", inputData[, "MakeName"] & inputData$YearName < 1966, "ModelName"] <-  "LeMans"
-                                                                               
+  inputData[grepl("GTO", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Pontiac", inputData[, "MakeName"], ignore.case = TRUE) & inputData$YearName < 1966, "SubModelName"] <-  "GTO"
+  inputData[grepl("GTO", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Pontiac", inputData[, "MakeName"], ignore.case = TRUE) & inputData$YearName < 1966, "ModelName"] <-  "LeMans"
+
   #fix Oldsmobile 4-4-2 Cutlass pre-1968 and post-1971
-  inputData[grepl("442", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Oldsmobile", inputData[, "MakeName"] & inputData$YearName < 1968 & inputData$YearName > 1972, "SubModelName"] <- "4-4-2"
-  inputData[grepl("442", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Oldsmobile", inputData[, "MakeName"] & inputData$YearName < 1968 & inputData$YearName > 1972, "ModelName"] <- "Cutlass"                                                                      
+  inputData[grepl("442", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Oldsmobile", inputData[, "MakeName"], ignore.case = TRUE) & (inputData$YearName < 1968 | inputData$YearName > 1972), "SubModelName"] <- "4-4-2"
+  inputData[grepl("442", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Oldsmobile", inputData[, "MakeName"], ignore.case = TRUE) & (inputData$YearName < 1968 | inputData$YearName > 1972), "ModelName"] <- "Cutlass"
 
   #move Range Rover to be model of Land Rover make
   inputData[grepl("Range Rover", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <-  "Range Rover"
