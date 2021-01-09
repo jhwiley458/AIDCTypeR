@@ -53,16 +53,17 @@
     subModels <- subModels[order(-subModelsNchar)] #most descriptive submodels are first
 
     for(sm in subModels){
+      if(grepl("[.]", sm)){sm <- gsub("\\.", "[.]", sm)}
       #if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(sm, dirtyRow$Page_Title, ignore.case = TRUE)){
       if(!is.na(optionalColumns)){
         for(thisColumn in optionalColumns){
-          if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow[, thisColumn], ignore.case = TRUE)){
+          if((grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) | grepl(sm, dirtyRow[, thisColumn], ignore.case = TRUE)) & !grepl(sm, thisMake, ignore.case = FALSE)){
             returnThis <- sm
             break
           }
         }
       } else {
-        if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE)){
+        if(grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) & !grepl(sm, thisMake, ignore.case = FALSE)){
           returnThis <- sm
           break
         }
@@ -81,21 +82,28 @@
     subModels <- subModels[order(-subModelsNchar)] #most descriptive are first
 
     for(sm in subModels){
+      if(grepl("[.]", sm)){sm <- gsub("\\.", "[.]", sm)}
       #if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(sm, dirtyRow$Page_Title, ignore.case = TRUE)){
       if(!is.na(optionalColumns)){
         for(thisColumn in optionalColumns){
-          if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow[, thisColumn], ignore.case = TRUE)){
+          if((grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) | grepl(sm, dirtyRow[, thisColumn], ignore.case = TRUE)) & !grepl(sm, thisMake, ignore.case = FALSE)) {
             returnThis <- sm
             break
           }
         }
       } else {
-        if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE)){
+        if(grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) & !grepl(sm, thisMake, ignore.case = FALSE)){
           returnThis <- sm
           break
         }
       }
     }
+  }
+
+  if(grepl("\\[", returnThis) & grepl("\\]", returnThis))
+  {
+    returnThis <- gsub("\\[", "", returnThis)
+    returnThis <- gsub("\\]", "", returnThis)
   }
 
   return(returnThis)
