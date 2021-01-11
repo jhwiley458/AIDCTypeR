@@ -9,6 +9,7 @@
   inputData[grepl("^VW$", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Volkswagen"
   inputData[grepl("Shelby", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Shelby"
   inputData[grepl("Dodge", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Dodge"
+  inputData[grepl("Mercedes", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Mercedes-Benz"
   inputData[grepl("International", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "International (IHC)"
   inputData[grepl("IHC", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "International (IHC)"
 
