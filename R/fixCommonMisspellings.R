@@ -53,14 +53,23 @@
   inputData[grepl("C-Class", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "C-Class"
   inputData[grepl("E-Class", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "E-Class"
   inputData[grepl("S-Class", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S-Class"
-  inputData[grepl("W124", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "E-Class"
-  inputData[grepl("W126", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S-Class"
-  inputData[grepl("W113", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "SL"
-  inputData[grepl("R230", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "SL"
-  #inputData[grepl("W111", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S"
-  #inputData[grepl("W108", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S"
-  #inputData[grepl("W109", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S"
+  inputData[grepl("^W124$", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "E-Class"
+  inputData[grepl("^W126$", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S-Class"
+  inputData[grepl("^W113$", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "SL"
+  inputData[grepl("^R230$", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "SL"
+  #inputData[grepl("^W111$", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S"
+  #inputData[grepl("^W108$", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S"
+  #inputData[grepl("^W109$", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S"
 
+    #Remove Mercedes-Benz generation data for Collecting Cars etc 
+  for(thisGeneration in c("W111", "W110", "W113", "R107", "R129", "W201", "W210", "W208", "W123", "W124", "W126", "W108", "W109", "R230", "R170")){
+   inputData[grepl(thisGeneration, inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- gsub(thisGeneration, "", inputData[grepl(thisGeneration, inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"])
+  }
+  
+  inputData[grepl("[0-9] SL", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- gsub(" SL", "SL", inputData[grepl("[0-9] SL", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"])
+  inputData[grepl("SL [0-9]", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- gsub(" SL", "SL", inputData[grepl("[0-9] SL", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"])
+  inputData[grepl("PAGODA", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- gsub("PAGODA", "", inputData[grepl("[0-9] SL", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"])
+  
   #assign appropriate bodystyle to any records that have term in the model name
   inputData[grepl("Cabriolet", inputData[, "ModelName"], ignore.case = TRUE), "BodyTypeName"] <- "Cabriolet"
   inputData[grepl("Convertible", inputData[, "ModelName"], ignore.case = TRUE), "BodyTypeName"] <- "Convertible"
