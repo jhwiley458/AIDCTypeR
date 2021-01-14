@@ -67,8 +67,8 @@
   }
   
   inputData[grepl("[0-9] SL", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- gsub(" SL", "SL", inputData[grepl("[0-9] SL", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"])
-  inputData[grepl("SL [0-9]", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- gsub(" SL", "SL", inputData[grepl("[0-9] SL", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"])
-  inputData[grepl("PAGODA", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- gsub("PAGODA", "", inputData[grepl("[0-9] SL", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"])
+  inputData[grepl("SL [0-9]", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- gsub("SL ", "SL", inputData[grepl("SL [0-9]", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"])
+  inputData[grepl("PAGODA", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- gsub("PAGODA", "", inputData[grepl("PAGODA", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"])
   
   #assign appropriate bodystyle to any records that have term in the model name
   inputData[grepl("Cabriolet", inputData[, "ModelName"], ignore.case = TRUE), "BodyTypeName"] <- "Cabriolet"
