@@ -17,17 +17,17 @@
 	                                 ,vbref.[EngineCodeID]
 	                                 ,vbref.MaintenanceStatusDesc
 	                                 ,vg.[VehicleGroupName]
-                                   FROM [VehicleInformationAIS].[dbo].[VBEReferenceData] vbref
+                                   FROM [VehicleInformation].[dbo].[VBEReferenceData] vbref
                                    LEFT JOIN
-                                   [VehicleInformationAIS].[dbo].[VehicleGroupToBaseVehicle] vgbv
+                                   [VehicleInformation].[dbo].[VehicleGroupToBaseVehicle] vgbv
                                    ON
                                    vgbv.[BaseVehicleID] = vbref.[BaseVehicleID]
                                    LEFT JOIN
-                                   [VehicleInformationAIS].[dbo].[VehicleGroup] vg
+                                   [VehicleInformation].[dbo].[VehicleGroup] vg
                                    ON
                                    vgbv.[VehicleGroupID] = vg.[VehicleGroupID]
                                    LEFT JOIN
-                                   [VehicleInformationAIS].[dbo].[EngineCode] ec
+                                   [VehicleInformation].[dbo].[EngineCode] ec
                                    ON
                                    vbref.EngineCodeID = ec.EngineCodeID
                                    WHERE vbref.MaintenanceStatusDesc LIKE '%Active%'
@@ -37,7 +37,7 @@
   }
 
   vidData <- {}
-  dbhandle <- odbcDriverConnect("driver={SQL Server};server=VHDCSQLAIS01;database=VehicleInformationAIS;trusted_connection=true")
+  dbhandle <- odbcDriverConnect("driver={SQL Server};server=SQLVehicleProd;database=VehicleInformation;trusted_connection=true")
   vidData <- sqlQuery(dbhandle, queryString)
 
   odbcClose(dbhandle)
