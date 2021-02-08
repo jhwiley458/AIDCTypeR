@@ -6,7 +6,7 @@
 "cleanSubModelName" <- function(dirtyRow, vidInput, columnName, optionalColumns = NA)
 {
 
-  #use clean make and model and model year
+   #use clean make and model and model year
   thisYear <- dirtyRow$YearName[1]
   thisMake <- dirtyRow$CleanMakeName[1]
   thisModel <- dirtyRow$CleanModelName[1]
@@ -17,14 +17,29 @@
                                             & vidInput$ModelName == thisModel
                                             & !is.na(vidInput$SubModelName)])
 
+  if(length(subModels) > 0){
+   subModelsNchar <- sapply(subModels, nchar)
+   subModels <- subModels[order(-subModelsNchar)] #most descriptive submodels are first
+  }
+
+  #remove characters such as dashes or spaces
+  smnStripped <- removeNonLettersNumbers(dirtyRow[, columnName])
+
   returnThis <- NA
   if(length(subModels) == 1)
   {
     returnThis <- subModels #if just one exists return that
   } else {
+
     #otherwise attempt join to VID on possible matches. Fewer than 1/3 of characters in submodel can be wrong
     if(length(subModels) > 1 & !is.na(dirtyRow$SubModelName) & !dirtyRow$Review & nchar(dirtyRow$SubModelName) > 3)
     {
+
+      submodelNamesStripped <- removeNonLettersNumbers(subModels)
+      if(smnStripped %in% submodelNamesStripped){
+        returnThis <- subModels[smnStripped == submodelNamesStripped]
+      }
+      else {
       combinedData <- {}
       combinedData <- stringdist_inner_join(dirtyRow[, c("TxnID", "SubModelName")]
                                             , vidInput[vidInput$YearName == thisYear
@@ -41,6 +56,7 @@
         combinedData <- combinedData[order(combinedData$DistanceColumn), ]
         returnThis <- combinedData$SubModelName.y[1]
       }
+      }
     }
     #}
   }
@@ -54,16 +70,17 @@
 
     for(sm in subModels){
       if(grepl("[.]", sm)){sm <- gsub("\\.", "[.]", sm)}
+      smStripped <- removeNonLettersNumbers(sm) #also strip any non letters or numbers from the VID model name
       #if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(sm, dirtyRow$Page_Title, ignore.case = TRUE)){
       if(!is.na(optionalColumns)){
         for(thisColumn in optionalColumns){
-          if((grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) | grepl(sm, dirtyRow[, thisColumn], ignore.case = TRUE)) & !grepl(sm, thisMake, ignore.case = FALSE)){
+          if(is.na(returnThis) & (grepl(smStripped, smnStripped, ignore.case = TRUE) | (grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) | grepl(sm, dirtyRow[, thisColumn], ignore.case = TRUE)) & !grepl(sm, thisMake, ignore.case = FALSE))){
             returnThis <- sm
             break
           }
         }
       } else {
-        if(grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) & !grepl(sm, thisMake, ignore.case = FALSE)){
+        if(grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) & !grepl(sm, thisMake, ignore.case = FALSE) & is.na(returnThis)){
           returnThis <- sm
           break
         }
