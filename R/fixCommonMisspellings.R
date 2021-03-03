@@ -14,13 +14,13 @@
   inputData[grepl("IHC", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "International (IHC)"
 
   #fix models to conform to VID
-  inputData[grepl("XKE", inputData[, columnName], ignore.case = TRUE), columnName] <-  "E-Type"
-  inputData[grepl("XK-E", inputData[, columnName], ignore.case = TRUE), columnName] <-  "E-Type"
-  inputData[grepl("911", inputData[, columnName], ignore.case = TRUE), columnName] <-  "911"
-  inputData[grepl("964", inputData[, columnName], ignore.case = TRUE), columnName] <-  "911"
-  inputData[grepl("993", inputData[, columnName], ignore.case = TRUE), columnName] <-  "911"
-  inputData[grepl("996", inputData[, columnName], ignore.case = TRUE), columnName] <-  "911"
-  inputData[grepl("997", inputData[, columnName], ignore.case = TRUE), columnName] <-  "911"
+  inputData[grepl("XKE", inputData[, columnName], ignore.case = TRUE), "ModelName"] <-  "E-Type"
+  inputData[grepl("XK-E", inputData[, columnName], ignore.case = TRUE), "ModelName"] <-  "E-Type"
+  inputData[grepl("911", inputData[, columnName], ignore.case = TRUE), "ModelName"] <-  "911"
+  inputData[grepl("964", inputData[, columnName], ignore.case = TRUE), "ModelName"] <-  "911"
+  inputData[grepl("993", inputData[, columnName], ignore.case = TRUE), "ModelName"] <-  "911"
+  inputData[grepl("996", inputData[, columnName], ignore.case = TRUE), "ModelName"] <-  "911"
+  inputData[grepl("997", inputData[, columnName], ignore.case = TRUE), "ModelName"] <-  "911"
 
   #Fix convention of using model generations in Bring a Trailer data
   inputData[grepl("^E3-B", inputData[, "ModelName"], ignore.case = TRUE) & grepl("BMW", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <-  "Bavaria"
