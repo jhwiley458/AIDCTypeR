@@ -9,7 +9,7 @@
   inputData[grepl("^VW$", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Volkswagen"
   inputData[grepl("Shelby", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Shelby"
   inputData[grepl("Dodge", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Dodge"
-  inputData[grepl("Mercedes", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Mercedes-Benz"
+  inputData[grepl("Mercedes", inputData[, "MakeName"], ignore.case = TRUE) & inputData$YearName >= 1926, "MakeName"] <- "Mercedes-Benz"
   inputData[grepl("International", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "International (IHC)"
   inputData[grepl("IHC", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "International (IHC)"
 
@@ -60,6 +60,11 @@
   #inputData[grepl("^W111$", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S"
   #inputData[grepl("^W108$", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S"
   #inputData[grepl("^W109$", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "S"
+
+  #Remove Gullwing from model name and add coupe to body name
+  inputData[grepl("300SL", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Gullwing", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "BodyTypeName"] <- "Coupe"
+  inputData[grepl("300SL", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Gullwing", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "SubModelName"] <- "Gullwing"
+  inputData[grepl("300SL", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Gullwing", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Mercedes-Benz", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "300SL"
 
     #Remove Mercedes-Benz generation data for Collecting Cars etc 
   for(thisGeneration in c("W111", "W110", "W113", "R107", "R129", "W201", "W210", "W208", "W123", "W124", "W126", "W108", "W109", "R230", "R170")){
