@@ -121,8 +121,15 @@
   inputData[grepl("Ford", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Shelby", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName >= 2006 & (grepl("GT500", inputData[, "ListingURL"], ignore.case = TRUE) | grepl("GT500", inputData[, "ListingURL"], ignore.case = TRUE)), "SubModelName"] <- "Shelby GT500"
   inputData[grepl("Ford", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Shelby", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName >= 2006, "ModelName"] <- "Mustang"
 
-  inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3100", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName >= 1946 & inputData$YearName <= 1959, "ModelName"] <- "Series 3100"
- 
+  inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3100", inputData[, "ModelName"], ignore.case = TRUE), "ModelName"] <- "Series 3100"
+  inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3200", inputData[, "ModelName"], ignore.case = TRUE), "ModelName"] <- "Series 3200"
+  inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3400", inputData[, "ModelName"], ignore.case = TRUE), "ModelName"] <- "Series 3400"
+  inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3500", inputData[, "ModelName"], ignore.case = TRUE), "ModelName"] <- "Series 3500"
+  inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3600", inputData[, "ModelName"], ignore.case = TRUE), "ModelName"] <- "Series 3600"
+  inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3700", inputData[, "ModelName"], ignore.case = TRUE), "ModelName"] <- "Series 3700"
+  inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3800", inputData[, "ModelName"], ignore.case = TRUE), "ModelName"] <- "Series 3800"
+  inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3900", inputData[, "ModelName"], ignore.case = TRUE), "ModelName"] <- "Series 3900"
+  
   #move Range Rover to be model of Land Rover make
   inputData[grepl("Range Rover", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <-  "Range Rover"
   inputData[grepl("Range Rover", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <-  "Land Rover"
