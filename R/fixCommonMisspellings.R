@@ -121,7 +121,8 @@
   inputData[grepl("Ford", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Shelby", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName >= 2006 & (grepl("GT500", inputData[, "ListingURL"], ignore.case = TRUE) | grepl("GT500", inputData[, "ListingURL"], ignore.case = TRUE)), "SubModelName"] <- "Shelby GT500"
   inputData[grepl("Ford", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Shelby", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName >= 2006, "ModelName"] <- "Mustang"
 
-  
+  inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3100", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName >= 1946 & inputData$YearName <= 1959, "ModelName"] <- "Series 3100"
+ 
   #move Range Rover to be model of Land Rover make
   inputData[grepl("Range Rover", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <-  "Range Rover"
   inputData[grepl("Range Rover", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <-  "Land Rover"
