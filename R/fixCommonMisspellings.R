@@ -143,7 +143,8 @@
             & grepl("GTV", inputData[, "ModelName"], ignore.case = TRUE)
             & inputData$YearName %in% c(1972, 1973, 1974), "ModelName"] <-  "2000"
 
-
+  inputData$ModelName[grepl("[[]link[]]", inputData$ModelName, ignore.case = TRUE)] <- gsub("[[]link[]]", "", inputData$ModelName[grepl("[[]link[]]", inputData$ModelName, ignore.case = TRUE)])
+  
   inputData$MakeName <- str_trim(inputData$MakeName, side = c("both"))
   inputData$ModelName <- str_trim(inputData$ModelName, side = c("both"))
   inputData$BodyTypeName <- str_trim(inputData$BodyTypeName, side = c("both"))
