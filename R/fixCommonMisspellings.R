@@ -142,6 +142,15 @@
   inputData[grepl("Alfa", inputData[, "MakeName"], ignore.case = TRUE)
             & grepl("GTV", inputData[, "ModelName"], ignore.case = TRUE)
             & inputData$YearName %in% c(1972, 1973, 1974), "ModelName"] <-  "2000"
+  
+  inputData[grepl("Alfa Romeo 105/115 Series Spider", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName %in% c(1966, 1967, 1968)
+            & grepl("Alfa Romeo", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "Giulia"
+  
+    inputData[grepl("Alfa Romeo 105/115 Series Spider", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName %in% c(1969, 1970, 1971)
+            & grepl("Alfa Romeo", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "1750"
+  
+      inputData[grepl("Alfa Romeo 105/115 Series Spider", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName %in% c(1972, 1973, 1974, 1975, 1976)
+            & grepl("Alfa Romeo", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "2000"
 
   inputData$ModelName[grepl("[[]link[]]", inputData$ModelName, ignore.case = TRUE)] <- gsub("[[]link[]]", "", inputData$ModelName[grepl("[[]link[]]", inputData$ModelName, ignore.case = TRUE)])
   
