@@ -126,7 +126,7 @@
   inputData[grepl("Ford", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Mustang", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "Mustang"  
   inputData[grepl("Ford", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Thunderbird", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "Thunderbird"
   
-  inputData[grepl("Ford ", inputData[, "MakeName"], ignore.case = TRUE), ignore.case = TRUE), "MakeName"] <- "Ford"
+  inputData[grepl("Ford ", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Ford"
 
 
   inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3100", inputData[, "ModelName"], ignore.case = TRUE), "ModelName"] <- "Series 3100"
