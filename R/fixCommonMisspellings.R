@@ -127,7 +127,14 @@
   inputData[grepl("Ford", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Thunderbird", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "Thunderbird"
   
   inputData[grepl("Ford ", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Ford"
+  
+  #Modern Mini Cooper
+  inputData[grepl("Mini", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Modern", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName >= 2002, "ModelName"] <- "Cooper"
+  inputData[grepl("Mini", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Cooper", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName >= 2002, "MakeName"] <- "Mini"
 
+  #Classic Mini Cooper
+  inputData[grepl("Mini", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Classic", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName < 2002, "ModelName"] <- "Mini"
+  inputData[grepl("Mini", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Mini", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName < 2002, "MakeName"] <- "Austin"
 
   inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3100", inputData[, "ModelName"], ignore.case = TRUE), "ModelName"] <- "Series 3100"
   inputData[grepl("Chevrolet", inputData[, "MakeName"], ignore.case = TRUE) & grepl("3200", inputData[, "ModelName"], ignore.case = TRUE), "ModelName"] <- "Series 3200"
