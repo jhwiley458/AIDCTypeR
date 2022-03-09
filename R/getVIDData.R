@@ -10,6 +10,7 @@
                                    ,LTRIM(RTRIM([ModelName])) AS ModelName
                                    ,LTRIM(RTRIM([SubModelName])) AS SubModelName
 	                                 ,LTRIM(RTRIM([BodyTypeName])) AS BodyTypeName
+,LTRIM(RTRIM([BodyNumDoors])) AS BodyNumDoors
                                    ,LTRIM(RTRIM(vbref.[Engine_Description])) AS Engine_Description
 	                                 ,vbref.[VehicleID]
                                    ,vbref.[BaseVehicleID]
