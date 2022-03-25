@@ -13,7 +13,7 @@
 #' @export
 "addVehicleID" <- function(dirtyData, vidInput)
 {
-  dirtyData <- merge(dirtyData, vidInput[, c("YearMakeModel", "VehicleID")], all.x = TRUE)
+  dirtyData <- merge(dirtyData, vidInput[, c("YearMakeModelSubModel", "VehicleID")], all.x = TRUE)
   dirtyData <- removeDuplicates(dirtyData, "TxnID")
   return(dirtyData)
 }
