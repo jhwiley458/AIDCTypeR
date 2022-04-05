@@ -84,6 +84,10 @@
           returnThis <- sm
           break
         }
+        if(grepl(dirtyRow[, columnName], sm, ignore.case = TRUE) & !grepl(sm, thisMake, ignore.case = FALSE) & is.na(returnThis)){
+          returnThis <- sm
+          break
+        }
       }
     }
   }
@@ -109,7 +113,11 @@
           }
         }
       } else {
-        if(grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) & !grepl(sm, thisMake, ignore.case = FALSE)){
+        if(grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) & !grepl(sm, thisMake, ignore.case = FALSE) & is.na(returnThis)){
+          returnThis <- sm
+          break
+        }
+        if(grepl(dirtyRow[, columnName], sm, ignore.case = TRUE) & !grepl(sm, thisMake, ignore.case = FALSE) & is.na(returnThis)){
           returnThis <- sm
           break
         }
