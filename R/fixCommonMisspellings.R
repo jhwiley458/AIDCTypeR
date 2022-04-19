@@ -128,6 +128,8 @@
   
   inputData[grepl("Ford ", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Ford"
   
+  inputData[grepl("Saleen", inputData[, "MakeName"], ignore.case = TRUE) & !grepl("S7", inputData[, "ModelName"], ignore.case = TRUE), "MakeName"] <- "Ford"
+  
   #Modern Mini Cooper
   inputData[grepl("Mini", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Modern", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName >= 2002, "ModelName"] <- "Cooper"
   inputData[grepl("Mini", inputData[, "MakeName"], ignore.case = TRUE) & grepl("Cooper", inputData[, "ModelName"], ignore.case = TRUE) & inputData$YearName >= 2002, "MakeName"] <- "Mini"
