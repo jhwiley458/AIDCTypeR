@@ -5,6 +5,7 @@
 {
 
   inputData[grepl("Chevy", inputData[, columnName], ignore.case = TRUE), columnName] <- "Chevrolet"
+  inputData[grepl("Chrvolet", inputData[, columnName], ignore.case = TRUE), columnName] <- "Chevrolet"
   inputData[grepl("AMC", inputData[, columnName], ignore.case = TRUE), columnName] <- "American Motors"
   inputData[grepl("^VW$", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Volkswagen"
   inputData[grepl("Shelby", inputData[, "MakeName"], ignore.case = TRUE), "MakeName"] <- "Shelby"
