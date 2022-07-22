@@ -84,7 +84,7 @@
           returnThis <- sm
           break
         }
-        if(grepl(dirtyRow[, columnName], sm, ignore.case = TRUE) & !grepl(sm, thisMake, ignore.case = FALSE) & is.na(returnThis)){
+        if(grepl(dirtyRow[, columnName], sm, ignore.case = TRUE) & (nchar(dirtyRow[, columnName]) > 0) & !grepl(sm, thisMake, ignore.case = FALSE) & is.na(returnThis)){
           returnThis <- sm
           break
         }
@@ -117,7 +117,7 @@
           returnThis <- sm
           break
         }
-        if(grepl(dirtyRow[, columnName], sm, ignore.case = TRUE) & !grepl(sm, thisMake, ignore.case = FALSE) & is.na(returnThis)){
+        if(grepl(dirtyRow[, columnName], sm, ignore.case = TRUE) & (nchar(dirtyRow[, columnName]) > 0) & !grepl(sm, thisMake, ignore.case = FALSE) & is.na(returnThis)){
           returnThis <- sm
           break
         }
