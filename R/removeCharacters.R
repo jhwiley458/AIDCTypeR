@@ -23,9 +23,10 @@
 #' @export
 "removeNonNumbers" <- function(inputString)
 {
-  #inputString <- gsub("[^[:digit:] ]", "", inputString)
-  inputString <- gsub("[^0-9.-]", "", inputString)
-  inputString <- str_replace_all(inputString, " ", "")
-  inputString <- as.numeric(inputString)
-  return(inputString)
+    #inputString <- gsub("[^[:digit:] ]", "", inputString)
+    inputString <- gsub("[^0-9.-]", "", inputString)
+    inputString <- str_replace_all(inputString, " ", "")
+    inputString <- as.numeric(inputString)
+    inputString <- format(inputString, scientific = FALSE)
+    return(inputString)
 }
