@@ -26,7 +26,7 @@
     #inputString <- gsub("[^[:digit:] ]", "", inputString)
     inputString <- gsub("[^0-9.-]", "", inputString)
     inputString <- str_replace_all(inputString, " ", "")
-    inputString <- as.numeric(inputString)
-    inputString <- format(inputString, scientific = FALSE)
+    inputString <- as.integer(inputString)
+    #inputString <- format(inputString, scientific = FALSE)
     return(inputString)
 }
