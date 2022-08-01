@@ -45,6 +45,7 @@
   inputData[grepl("M3", inputData[, "ModelName"], ignore.case = TRUE) & grepl("BMW", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "M3"
   inputData[grepl("M5", inputData[, "ModelName"], ignore.case = TRUE) & grepl("BMW", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "M5"
   inputData[grepl("M6", inputData[, "ModelName"], ignore.case = TRUE) & grepl("BMW", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "M6"
+  inputData[grepl("M S54", inputData[, "ModelName"], ignore.case = TRUE) & grepl("BMW", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "M"
 
   #Remove BMW generation data for Collecting Cars etc 
   for(thisGeneration in c("E9", "E12", "E28", "E34", "E39", "E60", "E24", "E31", "E21", "E30", "E36", "E46", "E92")){
