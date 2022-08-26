@@ -39,7 +39,7 @@
     if(length(modelName) == 1)
     {
       #if there is only one model for this make and model year then return it
-      returnThis <- modelName
+      #returnThis <- modelName #removing because VID is limited for newer models
     } else {
       if(length(modelName) > 1 & !is.na(dirtyRow$ModelName)){
         #order VID model names by decreasing length so that more specific models will be matched first. "328 GTS" matches before "328"
