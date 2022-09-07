@@ -99,6 +99,10 @@
   inputData[grepl("GT3", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Porsche", inputData[, "MakeName"], ignore.case = TRUE), "SubModelName"] <-  "GT3"
   inputData[grepl("GT3", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Porsche", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "911"
   
+  #fix Volkswagen bus model to conform with VID
+  inputData[grepl("Type II", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Volkswagen", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "Transporter"
+  inputData[grepl("Type 2", inputData[, "ModelName"], ignore.case = TRUE) & grepl("Volkswagen", inputData[, "MakeName"], ignore.case = TRUE), "ModelName"] <- "Transporter"
+  
   #fix SRT Viper to conform with VID as Dodge Viper
   inputData[grepl("Viper", inputData[, "ModelName"], ignore.case = TRUE) & grepl("SRT", inputData[, "MakeName"], ignore.case = TRUE) & inputData$YearName >= 2013, "MakeName"] <- "Dodge"
 
