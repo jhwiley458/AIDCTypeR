@@ -72,7 +72,7 @@
       if(grepl("[.]", sm)){sm <- gsub("\\.", "[.]", sm)}
       smStripped <- removeNonLettersNumbers(sm) #also strip any non letters or numbers from the VID model name
       #if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(sm, dirtyRow$Page_Title, ignore.case = TRUE)){
-      if(!is.na(optionalColumns)){
+      if(!is.na(optionalColumns[1])){
         for(thisColumn in optionalColumns){
           if(is.na(returnThis) & (grepl(smStripped, smnStripped, ignore.case = TRUE) | (grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) | grepl(sm, dirtyRow[, thisColumn], ignore.case = TRUE)) & !grepl(sm, thisMake, ignore.case = FALSE))){
             returnThis <- sm
@@ -105,7 +105,7 @@
     for(sm in subModels){
       if(grepl("[.]", sm)){sm <- gsub("\\.", "[.]", sm)}
       #if(grepl(sm, dirtyRow$YearMakeModelSubModel, ignore.case = TRUE) | grepl(sm, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(sm, dirtyRow$Page_Title, ignore.case = TRUE)){
-      if(!is.na(optionalColumns)){
+      if(!is.na(optionalColumns[1])){
         for(thisColumn in optionalColumns){
           if((grepl(sm, dirtyRow[, columnName], ignore.case = TRUE) | grepl(sm, dirtyRow[, thisColumn], ignore.case = TRUE)) & !grepl(sm, thisMake, ignore.case = FALSE)) {
             returnThis <- sm
