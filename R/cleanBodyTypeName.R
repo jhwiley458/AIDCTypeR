@@ -56,7 +56,7 @@
       #if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE) | grepl(b, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(b, dirtyRow$ListingURL, ignore.case = TRUE)){
       #  returnThis <- b
       #}
-      if(!is.na(optionalColumns)){
+      if(!is.na(optionalColumns[1])){
         for(thisColumn in optionalColumns){
           if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE) | grepl(b, dirtyRow[, thisColumn], ignore.case = TRUE)){
             returnThis <- b
@@ -107,7 +107,7 @@
   {
     for(b in bodyType){
       #if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE) | grepl(b, dirtyRow$Listing_Description, ignore.case = TRUE) | grepl(b, dirtyRow$ListingURL, ignore.case = TRUE)){
-      if(!is.na(optionalColumns)){
+      if(!is.na(optionalColumns[1])){
         for(thisColumn in optionalColumns){
           if(grepl(b, dirtyRow$YearMakeModel, ignore.case = TRUE) | grepl(b, dirtyRow[, thisColumn], ignore.case = TRUE)){
             returnThis <- b
