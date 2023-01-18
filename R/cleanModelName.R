@@ -45,7 +45,7 @@
         #order VID model names by decreasing length so that more specific models will be matched first. "328 GTS" matches before "328"
         modelNamesStripped <- removeNonLettersNumbers(modelName)
         if(mnStripped %in% modelNamesStripped){
-          returnThis <- modelName[mnStripped == modelNamesStripped]
+          returnThis <- modelName[mnStripped == modelNamesStripped][1]
         } else {
          for(m in modelName){
           mStripped <- removeNonLettersNumbers(m) #also strip any non letters or numbers from the VID model name
