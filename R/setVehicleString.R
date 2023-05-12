@@ -14,7 +14,7 @@
   inputData[, rename] <- apply(inputData[, columnNames], 1, combineThese)
 
   inputData[, rename] <- gsub("Base", "", inputData[, rename], ignore.case = TRUE)
-  inputData[, rename] <- gsub(" NA", " ", inputData[, rename], ignore.case = FALSE)
+  inputData[, rename] <- gsub(" NA$", " ", inputData[, rename], ignore.case = FALSE)
   inputData[, rename] <- gsub("  ", " ", inputData[, rename], ignore.case = TRUE)
 
   inputData[, rename] <- str_trim(inputData[, rename], side = c("both"))
